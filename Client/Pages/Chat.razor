@@ -1,0 +1,88 @@
+@page "/Chat"
+
+<PageTitle>Chat</PageTitle>
+
+<MudGrid Container="true" Spacing="4">
+    <MudItem xs="12">
+        <!-- 对话内容区域 -->
+        <div class="conversation-area">
+            @foreach (var message in messages)
+            {
+                <div>@message.CreateById say @message.Text</div>
+            }
+        </div>
+    </MudItem>
+
+    <MudItem xs="12">
+        <!-- 输入区域 -->
+        <div class="input-area">
+            <MudTextField @bind-Value="userInput" />
+            <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="SendMessage">Send</MudButton>
+        </div>
+    </MudItem>
+</MudGrid>
+
+@code {
+    private class Message
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+        public DateTime CreateTime { get; set; }
+        public Guid CreateById { get; set; }
+    }
+
+    private List<Message> messages = new List<Message>()
+    {
+        //20 fake data
+        new Message { Id = 1, Text = "Hello", CreateTime = DateTime.Now, CreateById = Guid.NewGuid() },
+        new Message { Id = 2, Text = "Hi", CreateTime = DateTime.Now, CreateById = Guid.NewGuid() },
+        new Message { Id = 3, Text = "How are you?", CreateTime = DateTime.Now, CreateById = Guid.NewGuid() },
+        new Message { Id = 4, Text = "I'm fine, thank you.", CreateTime = DateTime.Now, CreateById = Guid.NewGuid() },
+        new Message { Id = 5, Text = "And you?", CreateTime = DateTime.Now, CreateById = Guid.NewGuid() },
+        new Message { Id = 6, Text = "I'm fine too.", CreateTime = DateTime.Now, CreateById = Guid.NewGuid() },
+        new Message { Id = 7, Text = "Where are you from?", CreateTime = DateTime.Now, CreateById = Guid.NewGuid() },
+        new Message { Id = 8, Text = "I'm from China.", CreateTime = DateTime.Now, CreateById = Guid.NewGuid() },
+        new Message { Id = 9, Text = "I'm from America.", CreateTime = DateTime.Now, CreateById = Guid.NewGuid() },
+        new Message { Id = 10, Text = "I'm from Japan.", CreateTime = DateTime.Now, CreateById = Guid.NewGuid() },
+        new Message { Id = 11, Text = "I'm from Korea.", CreateTime = DateTime.Now, CreateById = Guid.NewGuid() },
+        new Message { Id = 12, Text = "I'm from Russia.", CreateTime = DateTime.Now, CreateById = Guid.NewGuid() },
+        new Message { Id = 13, Text = "I'm from England.", CreateTime = DateTime.Now, CreateById = Guid.NewGuid() },
+        new Message { Id = 14, Text = "I'm from France.", CreateTime = DateTime.Now, CreateById = Guid.NewGuid() },
+    };
+
+    private string userInput;
+    private void SendMessage()
+    {
+        if (!string.IsNullOrEmpty(userInput))
+        {
+            messages.Add(new Message
+                {
+                    CreateById = Guid.NewGuid(),
+                    CreateTime = DateTime.Now,
+                    Id = messages.Count + 1,
+                    Text = userInput
+                });
+            userInput = string.Empty;
+        }
+    }
+
+    //add auto specker (each 1 sec)
+protected override async Task OnInitializedAsync()
+    {
+        await Task.Run(async () =>
+        {
+            while (true)
+            {
+                await Task.Delay(1000);
+                messages.Add(new Message
+                {
+                    CreateById = Guid.NewGuid(),
+                    CreateTime = DateTime.Now,
+                    Id = messages.Count + 1,
+                    Text = "Hello"
+                });
+                StateHasChanged();
+            }
+        });
+    }
+}
