@@ -2,8 +2,69 @@
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<MudGrid Container="true" Spacing="4">
+    <MudGridItem xs="12" md="9">
+        <h2>Device Information</h2>
 
-Welcome to your new app.
+        <!-- 设备信息的内容 -->
+        <p>Device details go here.</p>
+    </MudGridItem>
 
-:)
+    <MudGridItem xs="12" md="3">
+        <h2>Device List</h2>
+
+        <!-- 设备清单的内容 -->
+        <ul>
+            <li>Device 1</li>
+            <li>Device 2</li>
+            <li>Device 3</li>
+        </ul>
+    </MudGridItem>
+</MudGrid>
+
+<h2>IoT Device List</h2>
+
+<MudTable Items="@deviceList" Dense="true">
+    <HeaderContent>
+        <MudTh>Device</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd>
+            @context
+        </MudTd>
+    </RowTemplate>
+</MudTable>
+
+<h2>Data Collection</h2>
+
+<MudTable Items="@dataCollection" Dense="true">
+    <HeaderContent>
+        <MudTh>Device</MudTh>
+        <MudTh>Data</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd>
+            @context.Device
+        </MudTd>
+        <MudTd>
+            @context.Data
+        </MudTd>
+    </RowTemplate>
+</MudTable>
+
+@code {
+    private List<string> deviceList = new List<string> { "Device 1", "Device 2", "Device 3" };
+
+    private List<DataEntry> dataCollection = new List<DataEntry>
+    {
+        new DataEntry { Device = "Device 1", Data = "123" },
+        new DataEntry { Device = "Device 2", Data = "456" },
+        new DataEntry { Device = "Device 3", Data = "789" }
+    };
+
+    public class DataEntry
+    {
+        public string Device { get; set; }
+        public string Data { get; set; }
+    }
+}

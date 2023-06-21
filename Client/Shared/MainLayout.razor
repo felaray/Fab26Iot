@@ -1,13 +1,68 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
+<MudThemeProvider @bind-IsDarkMode="@_isDarkMode" Theme="_theme" />
+<MudDialogProvider />
+<MudSnackbarProvider />
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+<MudLayout>
+    <MudLayout>
+        <MudAppBar>
+            <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+            IotHub
+            <MudSpacer />
+            <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" />
+        </MudAppBar>
+        <MudDrawer @bind-Open="@_drawerOpen">
+            <MudList>
+                <MudListItem Button="true" Href="/">
+                    <MudListItemIcon>
+                        <MudIcon Icon="@Icons.Material.Filled.Home" />
+                    </MudListItemIcon>
+                    <MudListItemText>Home</MudListItemText>
+                </MudListItem>
+                <MudListItem Button="true" Href="/counter">
+                    <MudListItemIcon>
+                        <MudIcon Icon="@Icons.Material.Filled.Add" />
+                    </MudListItemIcon>
+                    <MudListItemText>Devices</MudListItemText>
+                </MudListItem>
+                <MudListItem Button="true" Href="/Grid">
+                    <MudListItemIcon>
+                        <MudIcon Icon="@Icons.Material.Filled.List" />
+                    </MudListItemIcon>
+                    <MudListItemText>Admin</MudListItemText>
+                </MudListItem>
+                <MudSwitch @bind-Checked="@_isDarkMode" Color="Color.Primary" Class="ma-4" T="bool" Label="Toggle Light/Dark Mode" />
+            </MudList>
+
+        </MudDrawer>
+        <MudMainContent>
+            <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="my-6 pt-6">
+                @Body
+            </MudContainer>
+        </MudMainContent>
+    </MudLayout>
+</MudLayout>
+
+@code {
+    static private MudTheme Theme = new MudTheme();
+    bool _drawerOpen = false;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+    private MudTheme _theme = new MudTheme
+        {
+            Palette = new Palette
+            {
+                Black = "#272c34"
+            }
+        };
+
+
+    private bool _isDarkMode = true;
+
+
+}
