@@ -14,7 +14,7 @@
         </MudAppBar>
         <MudDrawer @bind-Open="@_drawerOpen">
             <MudList>
-                <MudListItem Button="true" Href="/ExampleJS">
+                <MudListItem Button="true" Href="/">
                     <MudListItemIcon>
                         <MudIcon Icon="@Icons.Material.Filled.Home" />
                     </MudListItemIcon>
@@ -25,6 +25,12 @@
                         <MudIcon Icon="@Icons.Material.Filled.Chat" />
                     </MudListItemIcon>
                     <MudListItemText>Chat</MudListItemText>
+                </MudListItem>
+                <MudListItem Button="true" Href="/ExampleJS">
+                    <MudListItemIcon>
+                        <MudIcon Icon="@Icons.Material.Filled.Chat" />
+                    </MudListItemIcon>
+                    <MudListItemText>ExampleJS</MudListItemText>
                 </MudListItem>
             </MudList>
 
